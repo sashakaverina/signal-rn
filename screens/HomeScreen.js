@@ -5,8 +5,14 @@ import { ScrollView } from 'react-native';
 import CustomListItem from '../components/CustomListItem';
 import { Avatar } from 'react-native-elements';
 import { auth, db } from '../firebase';
+import { TouchableOpacity } from 'react-native';
 
 const HomeScreen = ({navigation}) => {
+    const signOutUser = () => {
+        auth.signOut().then(() => {
+            navigation.replace("Login");
+        })
+    }
 
     useLayoutEffect(() => {
       navigation.setOptions({
@@ -15,7 +21,11 @@ const HomeScreen = ({navigation}) => {
           headerTitleStyle:  { color: "black"},
           headerTintColor: 'black',
           headerLeft: () => <View style={{ marginLeft: 20}}>
+              <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={signOutUser}>
               <Avatar rounded source={{ uri: auth?.currentUser?.photoURL }} />
+              </TouchableOpacity>
           </View>
 
       });
