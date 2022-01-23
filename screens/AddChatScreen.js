@@ -1,12 +1,51 @@
-import { View, Text } from 'react-native';
-import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import React, { useLayoutEffect, useState } from 'react';
+import { Button, Icon, Input } from 'react-native-elements';
+import { db } from '../firebase';
 
-const AddChatScreen = () => {
+const AddChatScreen = ( {navigation}) => {
+    const [input, setInput] = useState();
+
+    useLayoutEffect(() => {
+       navigation.setOptions({
+           title: "Add a new chat",
+           headerBackTitle: 'Chats',
+       });
+    }, [navigation]);
+
+    const createChat = async () => {
+        await db.collection('chats').add({
+            chatName: input
+        }).then(() => {
+            navigation.goBack();
+        })
+        .catch(error => alert(error.message))
+    };
   return (
-    <View>
-      <Text>Add Chat Screen</Text>
+    <View style={styles.container}>
+      <Input 
+      placeholder="Enter a chat name"
+      value={input}
+      onChangeText={(text) => setInput(text)}
+      onSubmitEditing={createChat}
+      leftIcon={
+          <Icon name='wechat' color="black" type="antdesign" size={24}></Icon>
+      }/>
+      <Button onPress={createChat} title='Create new Chat'/>
+
     </View>
   );
 };
 
 export default AddChatScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: 'white',
+        padding: 30,
+        height: "100%",
+        
+
+
+    }
+})
