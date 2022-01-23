@@ -23,7 +23,7 @@ const RegisterScreen = ({navigation}) => {
           
             authUser.user.updateProfile({
                 displayName: name,
-                photoURL: imageUrl || "https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png",
+                photoURL: imageUrl || "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png",
             })
         })
         .catch((error) => alert(error.message))
